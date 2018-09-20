@@ -5,6 +5,8 @@ This is autoclicker for Tinder.com
 This script use authentication with mobile phone, you have to input code by
 yourself.
 
+The first time you have to login by yourself and create account.
+
 This clicker use Google Chrome browser. 
 
 # How to install
