@@ -4,6 +4,7 @@ import time
 import click
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -58,16 +59,25 @@ def enter_point(phone_number, likes):
     This is autoclicker for Tinder.com We use authentication with mobile phone
     Format phone number 9121234567 (without country code)
     """
+    if len(phone_number) != 10:
+        exit("Check your phone number")
+
     driver = webdriver.Chrome()
     driver.get("https://tinder.com/")
 
     assert "Tinder" in driver.title
-
-    login(driver, phone_number)
+    try:
+        login(driver, phone_number)
+    except TimeoutException:
+        driver.close()
+        exit("Check your connection and code")
     click_like(driver, likes)
 
     driver.close()
 
 
 if __name__ == '__main__':
-    enter_point()
+    try:
+        enter_point()
+    except WebDriverException:
+        exit("Bye")
